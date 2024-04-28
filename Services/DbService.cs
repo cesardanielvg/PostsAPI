@@ -28,7 +28,7 @@ public class DbService(IConfiguration configuration) : IDbService
         return result;
     }
 
-    public async Task<int> EditData(string command, object parms)
+    public async Task<int> EditDataAsync(string command, object parms)
     {
         int result;
 

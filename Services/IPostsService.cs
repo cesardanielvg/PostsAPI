@@ -5,9 +5,11 @@ namespace PostsApi.Services;
 
 public interface IPostsService
 {
-    Task<bool> CreatePost(PostDto post);
-    Task<List<Post>> GetPostList();
-    Task<Post> UpdatePost(Post post);
-    Task<bool> DeletePost(int Id);
+    Task<Post> CreatePostAsync(PostDto post);
+    Task<List<Post>> GetPostListAsync();
+    Task<Post> UpdatePostAsync(Post post);
+    Task DeletePostAsync(int Id);
+
+    Task<Post> GetPostAsync(int id);
     
 }

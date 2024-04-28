@@ -1,0 +1,9 @@
+Automapper
+CICD
+DB VERSIONING
+README
+DEPLOY
+OTHER DB
+FRONT END
+AUTH
+Swagger comments

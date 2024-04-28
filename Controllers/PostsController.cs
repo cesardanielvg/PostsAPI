@@ -9,9 +9,38 @@ namespace PostsApi.Controllers;
 public class PostsController(ILogger<PostsController> _logger, IPostsService _postsService) : ControllerBase
 {
    
-    [HttpGet(Name = "GetPosts")]
-    public async Task<IEnumerable<Post>> Get()
+    #region CREATE 
+
+    [HttpPost]
+    public async Task<IEnumerable<Post>> InsertPost()
     {
-        return await _postsService.GetPostList();
+        return await _postsService.GetPostListAsync();
     }
+
+    [HttpGet]
+    [Route("/{Id}")]
+    public async Task<Post> GetByIdAsync([FromRoute]int Id)
+    {
+        return await _postsService.GetPostAsync(Id);
+    }
+
+    #endregion CREATE 
+
+    #region RETRIEVE 
+    
+    [HttpGet]
+    public async Task<IEnumerable<Post>> GetPostsAsync()
+    {
+        return await _postsService.GetPostListAsync();
+    }
+
+    [HttpGet]
+    [Route("/{Id}")]
+    public async Task<Post> GetByIdAsync([FromRoute]int Id)
+    {
+        return await _postsService.GetPostAsync(Id);
+    }
+
+    #endregion RETRIEVE 
+
 }
