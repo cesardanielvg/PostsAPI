@@ -1,50 +1,59 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+using System.Data;
+using Npgsql;
+using Dapper;
 using PostsApi.Models;
+using PostsApi.Models.DTOs;
 
 namespace PostsApi.Services;
 
-public class PostsService(IDbService _dbService) : IPostsService
+public class PostsService(IConfiguration _configuration) : IPostsService
 {
-    public async Task<bool> CreatePost(PostDto post)
+    private readonly string _connectionString = _configuration.GetConnectionString("PostsDb")!;
+
+    public IDbConnection Connection
     {
-        var result =
-            await _dbService.EditData(
-                "INSERT INTO public.Posts (Content,Datetime) VALUES (@Content, @DateTime)",
-                new Post(){
-                    Content=post.Content
-                });
-        return true;
+        get
+        {
+            return new NpgsqlConnection(_connectionString);
+        }
+    }
+    public async Task<Post> CreatePostAsync(CreatePostDto postDto)
+    {
+        Post post = new(){ 
+            Id = default,
+            Content = postDto.Content,
+            DateTime = DateTime.Now
+            };
+        post.Id = await Connection.ExecuteScalarAsync<int>(PostsSqlQueries.CREATEPOST, post);;
+        
+        return post;
     }
 
-    public async Task<List<Post>> GetPostList()
+    public async Task<IEnumerable<Post>> GetPostListAsync()
     {
-        var postList = await _dbService.GetAll<Post>("SELECT * FROM public.Posts", new { });
+        var postList = await Connection.QueryAsync<Post>(PostsSqlQueries.SELECTFROMPOSTS, new { });
         return postList;
     }
 
 
-    public async Task<Post> GetPost(int id)
+    public async Task<Post?> GetPostAsync(int id)
     {
-        var post = await _dbService.GetAsync<Post>("SELECT * FROM public.Posts where id=@id", new {id});
+        var post = await Connection.QueryFirstOrDefaultAsync<Post>(PostsSqlQueries.SELECTPOSTWHEREID, new {id});
         return post;
     }
 
-    public async Task<Post> UpdatePost(Post post)
+    public async Task UpdatePostAsync(UpdatePostDto postDto)
     {
-        var updatePost =
-            await _dbService.EditData(
-                "Update public.Posts SET name=@Content, Datetime=@DateTime WHERE id=@Id",
-                post);
-        return post;
+        var postToUpdate = await GetPostAsync(postDto.Id) ?? throw new KeyNotFoundException();
+        postToUpdate.Content = postDto.Content;
+        await Connection.ExecuteAsync(PostsSqlQueries.UPDATEPOSTWHEREID,postToUpdate);
     }
 
-    public async Task<bool> DeletePost(int id)
+    public async Task DeletePostAsync(int id)
     {
-        var deletePost = await _dbService.EditData("DELETE FROM public.Posts WHERE id=@Id", new {id});
-        return true;
+        _ = await GetPostAsync(id) ?? throw new KeyNotFoundException();
+        await Connection.ExecuteAsync(PostsSqlQueries.DELETEPOSTWHEREID, new {id});
     }
     
 }
