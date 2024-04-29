@@ -2,7 +2,7 @@
 namespace PostsApi.Models;
 
 public class Post{
-    public required int Id { get; set; }
-    public required string Content { get; set; } 
-    public DateTime DateTime  { get; set; }
+    public int Id { get; set;}
+    public string? Content { get; set; } 
+    public DateTime DateTime  {get; } = DateTime.Now;
 }
