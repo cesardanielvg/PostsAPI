@@ -4,6 +4,7 @@ using Npgsql;
 using Dapper;
 using PostsApi.Models;
 using PostsApi.Models.DTOs;
+using PostsApi.Database;
 
 namespace PostsApi.Services;
 

@@ -14,7 +14,11 @@ public class PostsController(IPostsService _postsService) : ControllerBase
 
     [HttpGet]
     [Route("{Id}")]
-    public async Task<Post?> GetByIdAsync([FromRoute] int Id) => await _postsService.GetPostAsync(Id);
+    public async Task<ActionResult> GetByIdAsync([FromRoute] int Id){
+    
+        var post =  await _postsService.GetPostAsync(Id);
+        return post==null? NotFound(): Ok(post);
+    }
 
     [HttpGet]
     public async Task<IEnumerable<Post>> GetPostsAsync() => await _postsService.GetPostListAsync();
