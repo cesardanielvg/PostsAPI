@@ -1,13 +1,15 @@
 
 using PostsApi.Models;
+using PostsApi.Models.DTOs;
 
 namespace PostsApi.Services;
 
 public interface IPostsService
 {
-    Task<bool> CreatePost(PostDto post);
-    Task<List<Post>> GetPostList();
-    Task<Post> UpdatePost(Post post);
-    Task<bool> DeletePost(int Id);
+    Task<Post> CreatePostAsync(CreatePostDto post);
+    Task<IEnumerable<Post>> GetPostListAsync();
+    Task UpdatePostAsync(UpdatePostDto post);
+    Task DeletePostAsync(int Id);
+    Task<Post?> GetPostAsync(int id);
     
 }
