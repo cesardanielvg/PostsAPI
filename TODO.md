@@ -4,13 +4,13 @@
 
 Docker Container Postgres
 
-Logging
+Create another user in localhost for db, letmein with pass and use that for liquibase properties. 
 Unit testing /Update README
-AUTH
+AUTH/update readme
 Swagger comments
 Automapper
-CICD
-DEPLOY
+Logging
+CICD/deploy
 
 
 //////////////////////
@@ -21,4 +21,4 @@ Postgres
 Dapper
 Posts API
 README
-DB VERSIONING
+Liquibase
