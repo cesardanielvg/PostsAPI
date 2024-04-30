@@ -136,3 +136,8 @@ _NCrunch*
 #development settings. 
 
 appsettings.Development.json
+*.vsidx
+
+# testing
+*.testlog
+testlog.manifest
