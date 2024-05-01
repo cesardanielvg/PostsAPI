@@ -10,11 +10,15 @@ namespace PostsApi.Controllers;
 public class PostsController(IPostsService _postsService) : ControllerBase
 {
     [HttpPost]
-    public async Task<Post> InsertPost([FromBody] CreatePostDto createPostDto) => await _postsService.CreatePostAsync(createPostDto);
+    public async Task<Post> InsertPostAsync([FromBody] CreatePostDto createPostDto) => await _postsService.CreatePostAsync(createPostDto);
 
     [HttpGet]
     [Route("{Id}")]
-    public async Task<Post?> GetByIdAsync([FromRoute] int Id) => await _postsService.GetPostAsync(Id);
+    public async Task<ActionResult> GetByIdAsync([FromRoute] int Id){
+    
+        var post =  await _postsService.GetPostAsync(Id);
+        return post==null? NotFound(): Ok(post);
+    }
 
     [HttpGet]
     public async Task<IEnumerable<Post>> GetPostsAsync() => await _postsService.GetPostListAsync();

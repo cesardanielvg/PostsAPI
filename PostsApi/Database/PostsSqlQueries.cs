@@ -1,6 +1,6 @@
 
 
-namespace PostsApi.Services;
+namespace PostsApi.Database;
 
 public class PostsSqlQueries
 {   

@@ -1,0 +1,21 @@
+databaseChangeLog:
+   - changeSet:
+       id: 1
+       author: cesar.vergara
+       changes:
+       - createTable:
+           tableName: posts
+           columns:
+           - column:
+               name: id
+               type: serial
+               constraints:
+                   primaryKey:  true
+                   nullable:  false
+           - column:
+               name: content
+               type: VARCHAR
+           - column:
+               name: datetime
+               type: timestamp
+
