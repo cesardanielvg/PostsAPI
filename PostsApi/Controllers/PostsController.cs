@@ -10,7 +10,7 @@ namespace PostsApi.Controllers;
 public class PostsController(IPostsService _postsService) : ControllerBase
 {
     [HttpPost]
-    public async Task<Post> InsertPost([FromBody] CreatePostDto createPostDto) => await _postsService.CreatePostAsync(createPostDto);
+    public async Task<Post> InsertPostAsync([FromBody] CreatePostDto createPostDto) => await _postsService.CreatePostAsync(createPostDto);
 
     [HttpGet]
     [Route("{Id}")]

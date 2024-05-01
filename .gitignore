@@ -141,3 +141,4 @@ appsettings.Development.json
 # testing
 *.testlog
 testlog.manifest
+.vscode/
